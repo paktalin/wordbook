@@ -10,6 +10,6 @@ class Entry(var word: String,  var translation: String) {
     }
 
     fun print() {
-        log("$word - $translation")
+        log("$word - $translation - $id")
     }
 }

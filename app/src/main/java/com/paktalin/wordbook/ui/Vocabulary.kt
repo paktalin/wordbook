@@ -12,6 +12,18 @@ class Vocabulary: Iterable<Entry>{
         return entries.size
     }
 
+    fun updateWord(position: Int, word: String) {
+        entries[position].word = word
+    }
+
+    fun updateTranslation(position: Int, translation: String) {
+        entries[position].translation = translation
+    }
+
+    fun print() {
+        for (entry in this) entry.print()
+    }
+
     override fun iterator(): Iterator<Entry> {
         return entries.iterator()
     }
