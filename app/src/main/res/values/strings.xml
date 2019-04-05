@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name" translatable="false">Wordbook</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_username">Email or username</string>
+    <string name="hint_word">word</string>
+    <string name="hint_translation">translation</string>
+    <string name="menu_option_delete">Delete</string>
+    <string name="menu_option_edit">Edit</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="sort_by_word">Sort by word</string>
+    <string name="sort_by_translation">Sort by translation</string>
+    <string name="search">Search</string>
+    <string name="log_out">Log out</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in">Log In</string>
+
+    <!--Toast messages-->
+    <string name="toast_empty_vocabulary">Your vocabulary is empty. Add your fist word!</string>
+    <string name="toast_auth_failed">Authentication failed</string>
+    <string name="toast_new_word_fail">Couldn\'t add the word</string>
+    <string name="toast_update_word_failed">Couldn\'t update the word</string>
+    <string name="toast_successful_sign_up">Congratulations! You can now access your vocabulary from any device</string>
+    <string name="toast_enter_username_password">Please, enter username and password</string>
+    <string name="toast_invalid_username">Please, create a username using letters a–z, numbers 0–9 and characters -_.</string>
+    <string name="toast_incorrect_username_password">Username or password is incorrect</string>
+</resources>

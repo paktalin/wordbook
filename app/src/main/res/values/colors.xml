@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D34E21</color>
+
+    <color name="colorPrimaryDark">#AD401C</color>
+    <color name="colorAccent">#D34E21</color>
+
+    <color name="sheet_color">#FAFAFA</color>
+    <color name="text_color">#000F55</color>
+    <color name="dark_brown">#4A2A14</color>
+    <color name="shadedPrimary">#BBAD401C</color>
+</resources>
