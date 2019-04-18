@@ -6,11 +6,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.paktalin.wordbook.R
-import com.paktalin.wordbook.database.DatabaseEntries.COLUMN_TRANSLATION
-import com.paktalin.wordbook.database.DatabaseEntries.COLUMN_WORD
 
 class VocabularyAdapter(val vocabulary: Vocabulary) : RecyclerView.Adapter<ViewHolder>() {
-    var updatedPositions = mutableSetOf<Int>()
+    var deletedIds = mutableSetOf<Long>()
+    var updatedEntries = mutableSetOf<Entry>()
 
     override fun getItemCount(): Int {
         return vocabulary.size()
@@ -19,23 +18,29 @@ class VocabularyAdapter(val vocabulary: Vocabulary) : RecyclerView.Adapter<ViewH
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.wordEt.setText(vocabulary[position].word)
         holder.translationEt.setText(vocabulary[position].translation)
-        holder.wordEt.addTextChangedListener(MyTextWatcher(position, COLUMN_WORD))
-        holder.translationEt.addTextChangedListener(MyTextWatcher(position, COLUMN_TRANSLATION))
+        holder.wordEt.addTextChangedListener(MyTextWatcher(position) {
+            v, p -> vocabulary.updateWord(p, v)} )
+        holder.translationEt.addTextChangedListener(MyTextWatcher(position) {
+            v, p -> vocabulary.updateTranslation(p, v)})
+        holder.entryLayout.setOnLongClickListener {
+            vocabulary.remove(position)
+            this@VocabularyAdapter.notifyItemRemoved(position)
+            this@VocabularyAdapter.notifyDataSetChanged()
+            deletedIds.add(vocabulary[position].id)
+            // TODO(solve the problem with indexOutOfBounds)
+            true
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_line, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_entry, parent, false)
         return ViewHolder(view)
     }
 
-    inner class MyTextWatcher(private val position: Int, private val column: String) : TextWatcher {
+    inner class MyTextWatcher(private val position: Int, val update: (value: String, position: Int) -> Unit) : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
-            val updatedField = editable?.toString()
-            if (updatedField != null) {
-                if (column == COLUMN_WORD) vocabulary.updateWord(position, updatedField)
-                else vocabulary.updateTranslation(position, updatedField)
-                updatedPositions.add(position)
-            }
+            update(editable?.toString()!!, position)
+            updatedEntries.add(vocabulary[position])
         }
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

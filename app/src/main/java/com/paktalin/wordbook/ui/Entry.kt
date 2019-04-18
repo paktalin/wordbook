@@ -9,7 +9,7 @@ class Entry(var word: String,  var translation: String) {
         this.id = id
     }
 
-    fun print() {
-        log("$word - $translation - $id")
+    fun print(position: Int = 0) {
+        log("$position $word - $translation - $id")
     }
 }

@@ -7,7 +7,6 @@ import com.paktalin.wordbook.R
 import com.paktalin.wordbook.database.DataManager.Companion.loadVocabulary
 import com.paktalin.wordbook.database.DataManager.Companion.updateVocabulary
 import com.paktalin.wordbook.database.DatabaseHelper
-import com.paktalin.wordbook.log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        updateVocabulary(dbHelper, adapter.vocabulary, adapter.updatedPositions)
+        updateVocabulary(dbHelper, adapter.updatedEntries, adapter.deletedIds)
     }
 }

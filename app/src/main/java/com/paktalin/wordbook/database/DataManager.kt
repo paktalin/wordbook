@@ -6,6 +6,7 @@ import com.paktalin.wordbook.database.DatabaseEntries.COLUMN_TRANSLATION
 import com.paktalin.wordbook.database.DatabaseEntries.COLUMN_WORD
 import com.paktalin.wordbook.database.DatabaseEntries.TABLE_NAME
 import com.paktalin.wordbook.log
+import com.paktalin.wordbook.ui.Entry
 import com.paktalin.wordbook.ui.Vocabulary
 
 class DataManager {
@@ -27,19 +28,18 @@ class DataManager {
             return vocabulary
         }
 
-        fun updateVocabulary(dbHelper: DatabaseHelper, vocabulary: Vocabulary, updatedPositions: MutableSet<Int>) {
+        fun updateVocabulary(dbHelper: DatabaseHelper, updatedEntries: MutableSet<Entry>, deletedIds: MutableSet<Long>) {
             val db = dbHelper.writableDatabase
-            for (i in updatedPositions) {
+            for (updatedEntry in updatedEntries) {
                 val values = ContentValues().apply {
-                    put(COLUMN_WORD, vocabulary[i].word)
-                    put(COLUMN_TRANSLATION, vocabulary[i].translation)
+                    put(COLUMN_WORD, updatedEntry.word)
+                    put(COLUMN_TRANSLATION, updatedEntry.translation)
                 }
-                if (vocabulary[i].id != (-1).toLong())
-                    db?.update(TABLE_NAME, values, "$_ID=${vocabulary[i].id}", null)
-                else
-                    log(db?.insert(TABLE_NAME, null, values).toString())
+                db?.update(TABLE_NAME, values, "$_ID=${updatedEntry.id}", null)
             }
-            loadVocabulary(dbHelper)
+            for (deletedId in deletedIds) {
+                log(db?.delete(TABLE_NAME, "$_ID=$deletedId", null).toString())
+            }
         }
     }
 }
